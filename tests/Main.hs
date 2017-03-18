@@ -66,6 +66,13 @@ spec pagePath = with (app pagePath) $ do
 
       r `shouldRespondWith` 200 { matchBody = bodyEquals "hello!" }
 
+  describe "GET /whatever" $ do
+    let r = get "/whatever"
+
+    it "still outputs contents of the file" $ do
+      liftIO $ writeFile pagePath "hello!"
+      r `shouldRespondWith` 200 { matchBody = bodyEquals "hello!" }
+
 
 app :: FilePath -> IO Application
 app pagePath = do
